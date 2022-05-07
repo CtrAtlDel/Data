@@ -26,28 +26,16 @@ public class Sender implements Runnable {
                 System.out.println(this.name + ": " + lyric[1]);
             } else if (Objects.equals(lyric[0], "Sonny")) {
                 pack.send(lyric[1]);
-            } else if (lyric[0] == "Sonny, Cher") {
+            } else if (Objects.equals(lyric[0], "Sonny, Cher")) {
                 System.out.println(this.name + ": " + lyric[1]);
                 pack.send(lyric[1]);
             }
-        }
 
-//        for (String packages : lyrics) {
-//            if (packages == 1) {
-//                System.out.println(this.name + packages);
-//            } else {
-//                if (packages == 3) {
-//                    System.out.println(this.name + packages);
-//                    pack.send(packages);
-//                } else {
-//                    pack.send(packages);
-//                }
-//            }
-//            try {
-//                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
-//            } catch (InterruptedException e) {
-//                Thread.currentThread().interrupt();
-//            }
-//        }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 }
