@@ -1,13 +1,15 @@
+import Model.Packet;
+import Receiver.Receiver;
+import Sender.Sender;
+
 public class Solver {
 
-
-    private int[] bitArray = {0, 1, 0, 0, 1, 0, 1, 1};
-
-    boolean transfer = true;
-
     public static void main(String[] args) {
-        CustomThread CherThread = new CustomThread("Cher");
-        CustomThread ConnyThead = new CustomThread("Sonny");
+        Packet pack = new Packet();
+        Thread sender = new Thread(new Sender(pack));
+        Thread receiver = new Thread(new Receiver(pack));
 
+        sender.start();
+        receiver.start();
     }
 }

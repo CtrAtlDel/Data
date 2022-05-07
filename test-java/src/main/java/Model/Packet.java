@@ -1,4 +1,6 @@
-public class Package {
+package Model;
+
+public class Packet {
 
     private boolean transfer = true;
     private int iterator = 0;
@@ -16,6 +18,7 @@ public class Package {
 
         this.transfer = false;
         this.iterator = iterator;
+
         notifyAll();
     }
 
