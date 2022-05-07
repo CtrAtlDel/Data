@@ -3,10 +3,10 @@ package Model;
 public class Packet {
 
     private boolean transfer = true;
-    private int iterator = 0;
-    private final int[] bitArray = {0, 1, 0, 0, 1, 0, 1, 1};
+    private String phrase;
 
-    public synchronized void send(int iterator) {  // Отправка пакета с итератором
+
+    public synchronized void send(String iterator) {  // Отправка пакета с итератором
         while (!transfer) {
             try {
                 wait();
@@ -15,15 +15,15 @@ public class Packet {
                 System.out.println("Thread Interrupted");
             }
         }
-
         this.transfer = false;
-        this.iterator = iterator;
+
+        this.phrase = iterator;
 
         notifyAll();
     }
 
     //Получение пакета с итератором
-    public synchronized int receive() {
+    public synchronized String receive() {
 
         while (transfer) {
             try {
@@ -35,7 +35,7 @@ public class Packet {
         }
 
         transfer = true;
-        int result = this.iterator;
+        String result = this.phrase;
         notifyAll();
         return result;
     }

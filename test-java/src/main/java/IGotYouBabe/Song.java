@@ -1,5 +1,7 @@
-public class Song {
-    private final
+package IGotYouBabe;
+
+public final class Song {
+    public final
     String[][] lyrics = {
             {"Cher", "They say we're young and we don't know \nWe won't find out until we grow"},
             {"Sonny", "Well I don't know if all that's true \n'Cause you got me, and baby I got you"},
