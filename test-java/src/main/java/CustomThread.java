@@ -1,5 +1,5 @@
 public class CustomThread implements Runnable {
-    String person;
+    String person; // name of thread
 
     public CustomThread(String person) {
         this.person = person;
@@ -7,6 +7,10 @@ public class CustomThread implements Runnable {
 
     public void run() {
 
+    }
+
+    public String getPerson() {
+        return person;
     }
 }
 
