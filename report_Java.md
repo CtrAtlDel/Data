@@ -216,7 +216,7 @@ public class Packet {
 }
 ```
 
-В классе Solver создадим два треда  и заупстим их.
+В классе Solver создадим два треда  и запустим их.
 
 ```Java
 import Model.Packet;
@@ -239,3 +239,7 @@ public class Solver {
 ```
 
 
+
+
+Ссылка на гит с решением:
+  https://github.com/CtrAtlDel/Data
