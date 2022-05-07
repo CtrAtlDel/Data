@@ -14,13 +14,19 @@ public class Sender implements Runnable {
 
     @Override
     public void run() {
-        int[] packeges = {1, 0, 0, 1, 0, 1, 0, 0, 5};
+        int[] packeges = {1, 0, 3, 0, 1, 3, 0, 1, 0, 0, 5};
 
         for (int packs : packeges) {
+
             if (packs == 1) {
                 System.out.println("Sender " + packs);
             } else {
-                pack.send(packs);
+                if (packs == 3) {
+                    System.out.println("Sender " + packs);
+                    pack.send(packs);
+                } else {
+                    pack.send(packs);
+                }
             }
             try {
                 Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
