@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Receiver implements Runnable {
     private final String name = "Sonny";
-    private Packet loadPacket;
+    private final Packet loadPacket;
 
     public Receiver(Packet loadPacket) {
         this.loadPacket = loadPacket;

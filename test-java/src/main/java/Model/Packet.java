@@ -1,12 +1,13 @@
 package Model;
 
+
 public class Packet {
 
     private boolean transfer = true;
     private String phrase;
 
 
-    public synchronized void send(String iterator) {  // Отправка пакета с итератором
+    public synchronized void send(String data) {  // Отправка пакета с итератором
         while (!transfer) {
             try {
                 wait();
@@ -17,12 +18,11 @@ public class Packet {
         }
         this.transfer = false;
 
-        this.phrase = iterator;
+        this.phrase = data;
 
         notifyAll();
     }
 
-    //Получение пакета с итератором
     public synchronized String receive() {
 
         while (transfer) {
