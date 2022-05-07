@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("hello word");
+        Thread t = Thread.currentThread(); // получаем главный поток
+        System.out.println(t.getName()); // main
     }
 }

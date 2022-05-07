@@ -26,7 +26,5 @@ public class Solver {
             {"Sonny, Cher", "I got you babe \nI got you babe \nI got you babe \nI got you babe \nI got you babe"}
     };
 
-    
-
 
 }
