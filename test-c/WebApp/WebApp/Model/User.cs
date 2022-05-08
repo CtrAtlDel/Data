@@ -9,7 +9,7 @@ public class User
     public string Password { get; set; }
     public string Name { get; set; }
     public int Gender { get; set; }
-    public DateTime Birthday { get; set; }
+    public DateTime? Birthday { get; set; }
     public bool Admin { get; set; }
     public DateTime CreatedOn { get; set; }
     public string CreatedBy { get; set; }
