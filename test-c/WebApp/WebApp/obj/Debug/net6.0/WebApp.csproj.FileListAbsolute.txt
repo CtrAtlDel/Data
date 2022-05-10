@@ -25,3 +25,7 @@
 /Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/obj/Debug/net6.0/ref/WebApp.dll
 /Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/obj/Debug/net6.0/WebApp.pdb
 /Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/obj/Debug/net6.0/WebApp.genruntimeconfig.cache
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Microsoft.IdentityModel.Logging.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/System.IdentityModel.Tokens.Jwt.dll
