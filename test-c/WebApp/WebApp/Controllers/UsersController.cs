@@ -5,10 +5,10 @@ namespace WebApp.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]
-public class UsersController : Controller
+public class UsersController : ControllerBase
 {
-    //Our database (imitation)
-    private static List<User> _users = new List<User>(new[]
+    //Database 
+    private static List<User> db = new List<User>(new[]
     {
         new User()
         {
@@ -18,14 +18,20 @@ public class UsersController : Controller
             RevorkedOn = DateTime.Today, RevorkedBy = "admin"
         }
     });
-    
-    //Test methods
 
-    [HttpGet]   
-    IEnumerable<User> Get() => _users;
+    [HttpGet]
+    public IEnumerable<User> Get() => db;
+
+    public IActionResult Get(Guid id)
+    {
+        var user = db.SingleOrDefault(user => user.Guid == id);
+
+        if (user == null) return NotFound(); //ERROR 404
+
+        return Ok(user);
+    }
 
     //Create
-
 
 
     //Read

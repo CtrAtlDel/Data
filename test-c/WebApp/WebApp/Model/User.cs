@@ -7,7 +7,8 @@ public class User
 {
     public Guid Guid { get; set; }
 
-    [Required] 
+    [Required]
+    
     public string Login { get; set; }
 
     [Required] 
