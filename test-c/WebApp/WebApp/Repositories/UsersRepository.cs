@@ -1,6 +1,6 @@
 namespace WebApp.Model;
 
-public class UsersCurrent
+public class UsersReposiroty
 {
     public static List<User> db = new List<User>(new[]
     {
