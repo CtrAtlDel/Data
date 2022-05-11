@@ -243,3 +243,6 @@ public class Solver {
 
 Ссылка на гит с решением:
   https://github.com/CtrAtlDel/Data
+
+Если на гите нет доступа или иные проблемы, напишите мне:
+  https://t.me/didyoumissmee
