@@ -19,13 +19,13 @@ public class UsersCurrent
             CreatedOn = DateTime.Today, CreatedBy = "admin", ModifiedOn = DateTime.Today, ModifiedBy = "admin",
             RevorkedOn = DateTime.Today, RevorkedBy = ""
         },
-        
-        new User(){
+
+        new User()
+        {
             Guid = Guid.NewGuid(), Login = "Petr", Password = "Petr", Name = "Petr", Gender = 1, Birthday = null,
             Admin = false,
             CreatedOn = DateTime.Today, CreatedBy = "admin", ModifiedOn = DateTime.Today, ModifiedBy = "admin",
-            RevorkedOn = DateTime.Today, RevorkedBy = ""
+            RevorkedOn = DateTime.Today, RevorkedBy = "admin"
         }
-        
     });
 }

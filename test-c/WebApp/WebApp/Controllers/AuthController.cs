@@ -26,7 +26,7 @@ public class AuthController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost]
-    public IActionResult Login([FromBody] Login userLogin) //Создаем токены для пользователей 
+    public IActionResult Login([FromBody] Login userLogin)
     {
         var user = Authenticate(userLogin);
         if (user != null)
@@ -45,7 +45,8 @@ public class AuthController : ControllerBase
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Login)
+            new Claim(ClaimTypes.NameIdentifier, user.Login),
+            // new Claim();
         };
 
         var token = new JwtSecurityToken(_config["Jwt:Issuer"],

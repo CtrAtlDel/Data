@@ -29,3 +29,16 @@
 /Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Microsoft.IdentityModel.Logging.dll
 /Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
 /Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/JetBrains.Annotations.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Nito.AsyncEx.Context.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Nito.AsyncEx.Coordination.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Nito.AsyncEx.Tasks.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Nito.Collections.Deque.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Nito.Disposables.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/System.Linq.Dynamic.Core.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Volo.Abp.AspNetCore.Authentication.JwtBearer.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Volo.Abp.Core.dll
+/Users/ivankvasov/Desktop/Project/Aton/Tests/test-c/WebApp/WebApp/bin/Debug/net6.0/Volo.Abp.Security.dll
