@@ -1,6 +1,4 @@
-using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Model;
 
@@ -10,35 +8,43 @@ namespace WebApp.Controllers;
 [Route("/api/[controller]")]
 public class UsersController : ControllerBase
 {
-    [HttpGet("admin")]
-    public IActionResult ifAdmin()
-    {
-        var user = GetUserLogin();
-        return Ok($"I am a admin {user.Login} ");
-    }
     
-    [HttpGet("user")]
-    public IActionResult ifUser()
+    //Read
+    [HttpGet] // 5)
+    public IEnumerable<User> Get(string Login, string Password) // For administrator
     {
-        var user = GetUserLogin();
-        return Ok($"I am a user {user.Login} ");
-    }
-
-
-    private User GetUserLogin()
-    {
-        var identity = HttpContext.User.Identity as ClaimsIdentity;
-
-        if (identity != null)
+        if (ifAdmin(Login))
         {
-            var userClaim = identity.Claims;
-            return new User
-            {
-                Login = userClaim.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value
-            };
+            return UsersReposiroty.db;
         }
 
         return null;
     }
-    
+
+    [HttpGet("Login")]  // 6)
+    public User GetUser(string Login, string Password, string UserLogin) // For administrator
+    {
+        return null;
+    }
+
+    [HttpGet("UserInfo")] // 7)
+    public User GetUserInfo(string Login, string Password, string UserLogin, string UserPassword)
+    {
+        return null;
+    }
+
+    [HttpGet("Age")]
+
+    public IEnumerable<User> GetAge(string Login, string Password, DateTime birthday)
+    {
+        return null;
+    }
+
+
+    private bool ifAdmin(string Login)
+    {
+        var user = UsersReposiroty.db.SingleOrDefault(u => u.Login == Login);
+        return user.Admin;
+    }
+
 }
