@@ -53,7 +53,7 @@ public class UsersController : ControllerBase
         userSession.Name = userUpdate.Name;
         userSession.Gender = userUpdate.Gender;
         userSession.Birthday = userUpdate.Birthday;
-        
+
         return Ok();
     }
 
@@ -63,15 +63,17 @@ public class UsersController : ControllerBase
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
         var userSession = userCheck(login, password);
         if (userSession == null) return BadRequest("Login or password is incorrect");
-        
-        
-        
+
+
         return Ok();
     }
 
     [HttpPut("UpdateLogin")] // 4)
-    public IActionResult UpdateLogin(string login, string password)
+    public IActionResult UpdateLogin(string login, string password, string newLogin)
     {
+        if (!ModelState.IsValid) return BadRequest("Is not valid form");
+        var userSession = userCheck(login, password);
+        if (userSession == null) return BadRequest("Login or password is incorrect");
         return Ok();
     }
 
@@ -88,13 +90,13 @@ public class UsersController : ControllerBase
     public User GetUser(string Login, string Password, string UserLogin) // For administrator
     {
         
+        
         return null;
     }
 
     [HttpGet("GetUserInfo")] // 7)
     public User GetUserInfo(string Login, string Password, string UserLogin, string UserPassword)
     {
-        
         return null;
     }
 
@@ -123,6 +125,7 @@ public class UsersController : ControllerBase
     [HttpPut("RestoreUser")] // 10) Параметры пользователя не указаны? => будем по логину
     public IActionResult RestoreUser(string Login, string Password, string UserLogin)
     {
+        
         return Ok();
     }
 
