@@ -14,8 +14,7 @@ public class UsersController : ControllerBase
     [HttpPost] // 1)
     public IActionResult CreateUser(string login, string password, UserCreate userCreator) // Admin
     {
-        
-        if (!ModelState.IsValid) return BadRequest();
+        if (!ModelState.IsValid) return BadRequest("Is not valid form");
 
         var userSession = userCheck(login, password);
 
@@ -36,20 +35,37 @@ public class UsersController : ControllerBase
         user.CreatedBy = login;
         user.CreatedOn = DateTime.Now;
         UsersReposiroty.db.Add(user);
-        
         return Ok(userCreator);
     }
 
     //Update - 1
-    [HttpPut("UpdateAll")] // 2)
-    public IActionResult UpdateAll(string login, string password)
+    // Кто меняет и кому меняет
+    [HttpPut("UpdateAll")] // 2) Admin + User with revorkedOn
+    public IActionResult UpdateAll(string login, string password, string loginUser, string passwordUser,
+        UserUpdate userUpdate)
     {
+        if (!ModelState.IsValid) return BadRequest("Is not valid form");
+
+        var userSession = userCheck(login, password);
+
+        if (userSession == null) return BadRequest("Login or password is incorrect");
+
+        userSession.Name = userUpdate.Name;
+        userSession.Gender = userUpdate.Gender;
+        userSession.Birthday = userUpdate.Birthday;
+        
         return Ok();
     }
 
     [HttpPut("UpdatePassword")] // 3)
-    public IActionResult UpdatePassword(string login, string password)
+    public IActionResult UpdatePassword(string login, string password, string newPassword)
     {
+        if (!ModelState.IsValid) return BadRequest("Is not valid form");
+        var userSession = userCheck(login, password);
+        if (userSession == null) return BadRequest("Login or password is incorrect");
+        
+        
+        
         return Ok();
     }
 
@@ -60,7 +76,6 @@ public class UsersController : ControllerBase
     }
 
     //Read 
-
     [HttpGet] // 5)
     public IActionResult Get(string login, string password)
     {
@@ -72,26 +87,29 @@ public class UsersController : ControllerBase
     [HttpGet("GetLogin")] // 6)
     public User GetUser(string Login, string Password, string UserLogin) // For administrator
     {
+        
         return null;
     }
 
     [HttpGet("GetUserInfo")] // 7)
     public User GetUserInfo(string Login, string Password, string UserLogin, string UserPassword)
     {
+        
         return null;
     }
 
     [HttpGet("GetUserByAge")] // 8)
     public IEnumerable<User> GetAge(string Login, string Password, DateTime birthday)
     {
+        
         return null;
     }
 
     //Delete 
-    
     [HttpDelete("DeleteSoft")] // 9.1)
     public IActionResult DeleteSoft(string Login, string Password, string UserLogin)
     {
+        
         return Ok();
     }
 

@@ -9,7 +9,7 @@ public class UsersReposiroty
             Guid = Guid.NewGuid(), Login = "admin", Password = "admin", Name = "admin", Gender = 1, Birthday = null,
             Admin = true,
             CreatedOn = DateTime.Now, CreatedBy = "admin", ModifiedOn = DateTime.Now, ModifiedBy = "admin",
-            RevorkedOn = DateTime.Now, RevorkedBy = "admin"
+            RevorkedOn = DateTime.MinValue, RevorkedBy = "admin"
         },
 
         new User()
@@ -17,7 +17,7 @@ public class UsersReposiroty
             Guid = Guid.NewGuid(), Login = "Ivan", Password = "Ivan", Name = "Ivan", Gender = 1, Birthday = null,
             Admin = false,
             CreatedOn = DateTime.Now, CreatedBy = "admin", ModifiedOn = DateTime.Now, ModifiedBy = "admin",
-            RevorkedOn = DateTime.Now, RevorkedBy = ""
+            RevorkedOn = DateTime.MinValue, RevorkedBy = ""
         },
 
         new User()
@@ -25,7 +25,7 @@ public class UsersReposiroty
             Guid = Guid.NewGuid(), Login = "Petr", Password = "Petr", Name = "Petr", Gender = 1, Birthday = null,
             Admin = false,
             CreatedOn = DateTime.Now, CreatedBy = "admin", ModifiedOn = DateTime.Now, ModifiedBy = "admin",
-            RevorkedOn = DateTime.Now, RevorkedBy = "admin"
+            RevorkedOn = DateTime.MinValue, RevorkedBy = "admin"
         }
     });
 }
