@@ -130,7 +130,9 @@ public class UsersController : ControllerBase
     {
         if (!IfAdmin(login, password)) return BadRequest("Access denied");
 
-        return Ok(UsersReposiroty.db.OrderBy(o => o.CreatedOn.Date).ToArray());
+        return Ok(UsersReposiroty.db.FindAll(user => user.RevorkedOn == DateTime.MinValue)
+            .OrderBy(o => o.CreatedOn.Date)
+            .ToArray());
     }
 
     [HttpGet("GetLogin")] // 6)
@@ -229,7 +231,7 @@ public class UsersController : ControllerBase
             it.RevorkedOn = DateTime.MinValue;
             it.RevorkedBy = "";
         }
-        
+
         return Ok();
     }
 
