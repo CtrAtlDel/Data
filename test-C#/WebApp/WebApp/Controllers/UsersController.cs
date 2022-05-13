@@ -1,7 +1,4 @@
-using JetBrains.Annotations;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using WebApp.Model;
 
 namespace WebApp.Controllers;
@@ -35,24 +32,38 @@ public class UsersController : ControllerBase
         user.CreatedBy = login;
         user.CreatedOn = DateTime.Now;
         UsersReposiroty.db.Add(user);
+
         return Ok(userCreator);
     }
 
-    //Update - 1
-    // Кто меняет и кому меняет
+    //Update - 1 //test it 
     [HttpPut("UpdateAll")] // 2) Admin + User with revorkedOn
-    public IActionResult UpdateAll(string login, string password, string loginUser, string passwordUser,
+    public IActionResult UpdateAll(string login, string password, string userLogin, string userPassword,
         UserUpdate userUpdate)
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
 
         var userSession = userCheck(login, password);
 
-        if (userSession == null) return BadRequest("Login or password is incorrect");
+        if (userSession.RevorkedOn != DateTime.MinValue) return BadRequest("This user was deleted");
 
-        userSession.Name = userUpdate.Name;
-        userSession.Gender = userUpdate.Gender;
-        userSession.Birthday = userUpdate.Birthday;
+        var userData = userCheck(userLogin, userPassword);
+
+        if (userSession == null || userData == null) return BadRequest("Login or password is incorrect");
+        if (!userSession.Admin)
+        {
+            if (login != userLogin && password != userPassword)
+            {
+                return BadRequest("Accsess denied, you cannot change another user's data");
+            }
+        }
+
+        foreach (var it in UsersReposiroty.db.Where(it => it.Login == userLogin))
+        {
+            it.Name = userUpdate.Name;
+            it.Gender = userUpdate.Gender;
+            it.Birthday = userUpdate.Birthday;
+        }
 
         return Ok();
     }
@@ -63,8 +74,6 @@ public class UsersController : ControllerBase
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
         var userSession = userCheck(login, password);
         if (userSession == null) return BadRequest("Login or password is incorrect");
-
-
         return Ok();
     }
 
@@ -74,6 +83,7 @@ public class UsersController : ControllerBase
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
         var userSession = userCheck(login, password);
         if (userSession == null) return BadRequest("Login or password is incorrect");
+
         return Ok();
     }
 
@@ -89,8 +99,6 @@ public class UsersController : ControllerBase
     [HttpGet("GetLogin")] // 6)
     public User GetUser(string Login, string Password, string UserLogin) // For administrator
     {
-        
-        
         return null;
     }
 
@@ -103,15 +111,18 @@ public class UsersController : ControllerBase
     [HttpGet("GetUserByAge")] // 8)
     public IEnumerable<User> GetAge(string Login, string Password, DateTime birthday)
     {
-        
         return null;
     }
 
     //Delete 
     [HttpDelete("DeleteSoft")] // 9.1)
-    public IActionResult DeleteSoft(string Login, string Password, string UserLogin)
+    public IActionResult DeleteSoft(string login, string password, string userLogin)
     {
-        
+        if (!ModelState.IsValid) return BadRequest("Is not valid form");
+        var userSession = userCheck(login, password);
+        if (userSession == null) return BadRequest("Login or password is incorrect");
+        if (!userSession.Admin) return BadRequest("Access denied");
+
         return Ok();
     }
 
@@ -125,7 +136,6 @@ public class UsersController : ControllerBase
     [HttpPut("RestoreUser")] // 10) Параметры пользователя не указаны? => будем по логину
     public IActionResult RestoreUser(string Login, string Password, string UserLogin)
     {
-        
         return Ok();
     }
 
