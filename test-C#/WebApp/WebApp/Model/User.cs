@@ -26,11 +26,11 @@ public class User
     
     public string CreatedBy { get; set; }
     
-    public DateTime ModifiedOn { get; set; }
+    public DateTime? ModifiedOn { get; set; }
     
     public string ModifiedBy { get; set; }
     
-    public DateTime RevorkedOn { get; set; }
+    public DateTime? RevorkedOn { get; set; }
 
     public string RevorkedBy { get; set; }
 }

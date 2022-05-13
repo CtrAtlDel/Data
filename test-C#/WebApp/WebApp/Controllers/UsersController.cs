@@ -22,15 +22,17 @@ public class UsersController : ControllerBase
         if (!userLoginCheck(userCreator.Login))
             return BadRequest("User with this nickname is exist");
 
-        var user = new User();
-        user.Login = userCreator.Login;
-        user.Password = userCreator.Password;
-        user.Name = userCreator.Name;
-        user.Gender = userCreator.Gender;
-        user.Birthday = userCreator.Birthday;
-        user.Admin = userCreator.Admin;
-        user.CreatedBy = login;
-        user.CreatedOn = DateTime.Now;
+        var user = new User
+        {
+            Login = userCreator.Login,
+            Password = userCreator.Password,
+            Name = userCreator.Name,
+            Gender = userCreator.Gender,
+            Birthday = userCreator.Birthday,
+            Admin = userCreator.Admin,
+            CreatedBy = login,
+            CreatedOn = DateTime.Now
+        };
         UsersReposiroty.db.Add(user);
 
         return Ok(userCreator);
@@ -120,9 +122,7 @@ public class UsersController : ControllerBase
         }
 
         if (UsersReposiroty.db.Any(it => it.Login == newLogin))
-        {
             return BadRequest("User with this login already exists");
-        }
 
         UsersReposiroty.db.FindAll(user => user.Login == userLogin).ForEach(o => o.Login = newLogin);
 
@@ -130,7 +130,7 @@ public class UsersController : ControllerBase
     }
 
     //Read 
-    [HttpGet] // 5)
+    [HttpGet] // 5) //todo add sorting
     public IActionResult Get(string login, string password)
     {
         if (!ifAdmin(login, password)) return BadRequest("Access denied");
@@ -139,15 +139,46 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("GetLogin")] // 6)
-    public User GetUser(string Login, string Password, string UserLogin) // For administrator
+    public IActionResult GetUser(string login, string password, string userLogin)
     {
-        return null;
+        if (!ModelState.IsValid) return BadRequest("Is not valid form");
+
+        var userSession = userCheck(login, password);
+
+        if (userSession == null) return BadRequest("Login or password is incorrect");
+
+        if (!userSession.Admin) return BadRequest("Access denied");
+
+        var user = UsersReposiroty.db.Find(user => user.Login == userLogin);
+
+        return Ok(new UserGet
+        {
+            Name = user.Name,
+            Gender = user.Gender,
+            Birthday = user.Birthday,
+            Active = user.RevorkedOn == DateTime.MinValue
+        });
     }
 
+    //todo change revorkedOn in empty or null 
     [HttpGet("GetUserInfo")] // 7)
-    public User GetUserInfo(string Login, string Password, string UserLogin, string UserPassword)
+    public IActionResult GetUserInfo(string login, string password)
     {
-        return null;
+        if (!ModelState.IsValid) return BadRequest("Is not valid form");
+
+        var userSession = userCheck(login, password);
+
+        if (userSession == null) return BadRequest("Login or password is incorrect");
+
+        if (userSession.RevorkedOn == null) return BadRequest("This user was deleted");
+
+        return Ok(new UserGet
+        {
+            Active = true,
+            Name = userSession.Name,
+            Gender = userSession.Gender,
+            Birthday = userSession.Birthday
+        });
     }
 
     [HttpGet("GetUserByAge")] // 8)

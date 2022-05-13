@@ -7,4 +7,5 @@ public class UserUpdate
     public int Gender { get; set; }
 
     public DateTime? Birthday { get; set; }
+    
 }
