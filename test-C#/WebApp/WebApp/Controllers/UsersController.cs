@@ -131,7 +131,7 @@ public class UsersController : ControllerBase
     }
 
     //Read 
-    [HttpGet] // 5) //todo add sorting
+    [HttpGet] // 5)
     public IActionResult Get(string login, string password)
     {
         if (!IfAdmin(login, password)) return BadRequest("Access denied");
