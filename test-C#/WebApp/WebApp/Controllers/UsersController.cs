@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Model;
 
@@ -160,7 +161,6 @@ public class UsersController : ControllerBase
         });
     }
 
-    //todo change revorkedOn in empty or null 
     [HttpGet("GetUserInfo")] // 7)
     public IActionResult GetUserInfo(string login, string password)
     {
@@ -170,7 +170,7 @@ public class UsersController : ControllerBase
 
         if (userSession == null) return BadRequest("Login or password is incorrect");
 
-        if (userSession.RevorkedOn == null) return BadRequest("This user was deleted");
+        if (userSession.RevorkedOn != DateTime.MinValue) return BadRequest("This user was deleted");
 
         return Ok(new UserGet
         {
@@ -181,10 +181,10 @@ public class UsersController : ControllerBase
         });
     }
 
-    [HttpGet("GetUserByAge")] // 8)
-    public IEnumerable<User> GetAge(string Login, string Password, DateTime birthday)
+    [HttpGet("GetUserByAge")] // 8) 
+    public IEnumerable<User> GetAge(string login, string password, int age)
     {
-        return null;
+        return UsersReposiroty.db.FindAll(user => user.Birthday.Value.Year > age);
     }
 
     //Delete 
@@ -196,19 +196,55 @@ public class UsersController : ControllerBase
         if (userSession == null) return BadRequest("Login or password is incorrect");
         if (!userSession.Admin) return BadRequest("Access denied");
 
-        return Ok();
+        var user = getUser(userLogin);
+        if (user == null) return BadRequest("Cannot find this user login");
+
+        user.RevorkedOn = DateTime.Now;
+        user.RevorkedBy = login;
+
+        return Ok("Success soft delete");
     }
 
     [HttpDelete("DeleteHard")] // 9.2)
-    public IActionResult DeleteHard(string Login, string Password, string UserLogin)
+    public IActionResult DeleteHard(string login, string password, string userLogin)
     {
-        return Ok();
+        if (!ModelState.IsValid) return BadRequest("Is not valid form");
+
+        var userSession = userCheck(login, password);
+
+        if (userSession == null) return BadRequest("Login or password is incorrect");
+
+        if (!userSession.Admin) return BadRequest("Access denied");
+
+        var user = getUser(userLogin);
+
+        if (user == null) return BadRequest("Cannot find this user login");
+
+        if (user.Admin) return BadRequest("Cannot delete administrator"); //чтобы админ не мог удалить сам себя
+
+        UsersReposiroty.db.Remove(UsersReposiroty.db.SingleOrDefault(user => user.Login == userLogin));
+
+        return Ok("Success hard delete");
     }
 
     //Update - 2
     [HttpPut("RestoreUser")] // 10) Параметры пользователя не указаны? => будем по логину
-    public IActionResult RestoreUser(string Login, string Password, string UserLogin)
+    public IActionResult RestoreUser(string login, string password, string userLogin)
     {
+        if (!ModelState.IsValid) return BadRequest("Is not valid form");
+
+        var userSession = userCheck(login, password);
+
+        if (userSession == null) return BadRequest("Login or password is incorrect");
+
+        if (!userSession.Admin) return BadRequest("Access denied");
+
+        foreach (var it in UsersReposiroty.db.Where(it => it.Login == userLogin))
+        {
+            it.RevorkedOn = DateTime.MinValue;
+            it.RevorkedBy = "";
+        }
+        
         return Ok();
     }
 
@@ -220,6 +256,11 @@ public class UsersController : ControllerBase
     private bool userLoginCheck(string login)
     {
         return UsersReposiroty.db.All(it => it.Login != login);
+    }
+
+    private User getUser(string login)
+    {
+        return UsersReposiroty.db.FirstOrDefault(it => it.Login == login);
     }
 
     private static bool ifAdmin(string login, string password)
