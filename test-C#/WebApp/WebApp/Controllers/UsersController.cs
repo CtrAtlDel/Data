@@ -118,12 +118,14 @@ public class UsersController : ControllerBase
                 return BadRequest("Access denied, you cannot change another user's data");
             }
         }
-        //Проверка есть ли элемент в коллекции
-        // if ()
-        // {
-        //     
-        // }
-        
+
+        if (UsersReposiroty.db.Any(it => it.Login == newLogin))
+        {
+            return BadRequest("User with this login already exists");
+        }
+
+        UsersReposiroty.db.FindAll(user => user.Login == userLogin).ForEach(o => o.Login = newLogin);
+
         return Ok("Success");
     }
 
