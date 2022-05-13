@@ -36,8 +36,8 @@ public class UsersController : ControllerBase
         return Ok(userCreator);
     }
 
-    //Update - 1 //test it 
-    [HttpPut("UpdateAll")] // 2) Admin + User with revorkedOn
+    //Update - 1  
+    [HttpPut("UpdateAll")] // 2) 
     public IActionResult UpdateAll(string login, string password, string userLogin, string userPassword,
         UserUpdate userUpdate)
     {
@@ -54,7 +54,7 @@ public class UsersController : ControllerBase
         {
             if (login != userLogin && password != userPassword)
             {
-                return BadRequest("Accsess denied, you cannot change another user's data");
+                return BadRequest("Access denied, you cannot change another user's data");
             }
         }
 
@@ -69,22 +69,62 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("UpdatePassword")] // 3)
-    public IActionResult UpdatePassword(string login, string password, string newPassword)
+    public IActionResult UpdatePassword(string login, string password, string userLogin, string userPassword,
+        string newPassword)
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
+
         var userSession = userCheck(login, password);
-        if (userSession == null) return BadRequest("Login or password is incorrect");
-        return Ok();
+
+        if (userSession.RevorkedOn != DateTime.MinValue) return BadRequest("This user was deleted");
+
+        var userData = userCheck(userLogin, userPassword);
+
+        if (userSession == null || userData == null) return BadRequest("Login or password is incorrect");
+        if (!userSession.Admin)
+        {
+            if (login != userLogin && password != userPassword)
+            {
+                return BadRequest("Access denied, you cannot change another user's data");
+            }
+        }
+
+        foreach (var it in UsersReposiroty.db.Where(it => it.Login == userLogin))
+        {
+            it.Password = newPassword;
+        }
+
+
+        return Ok("Success");
     }
 
     [HttpPut("UpdateLogin")] // 4)
-    public IActionResult UpdateLogin(string login, string password, string newLogin)
+    public IActionResult UpdateLogin(string login, string password, string userLogin, string userPassword,
+        string newLogin)
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
-        var userSession = userCheck(login, password);
-        if (userSession == null) return BadRequest("Login or password is incorrect");
 
-        return Ok();
+        var userSession = userCheck(login, password);
+
+        if (userSession.RevorkedOn != DateTime.MinValue) return BadRequest("This user was deleted");
+
+        var userData = userCheck(userLogin, userPassword);
+
+        if (userSession == null || userData == null) return BadRequest("Login or password is incorrect");
+        if (!userSession.Admin)
+        {
+            if (login != userLogin && password != userPassword)
+            {
+                return BadRequest("Access denied, you cannot change another user's data");
+            }
+        }
+        //Проверка есть ли элемент в коллекции
+        // if ()
+        // {
+        //     
+        // }
+        
+        return Ok("Success");
     }
 
     //Read 
