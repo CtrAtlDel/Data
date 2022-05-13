@@ -44,8 +44,6 @@ public class UsersController : ControllerBase
     public IActionResult UpdateAll(string login, string password, string userLogin, string userPassword,
         UserUpdate userUpdate)
     {
-        if (!ModelState.IsValid) return BadRequest("Is not valid form");
-
         var userSession = UserCheck(login, password);
 
         if (userSession.RevorkedOn != DateTime.MinValue) return BadRequest("This user was deleted");
@@ -75,8 +73,6 @@ public class UsersController : ControllerBase
     public IActionResult UpdatePassword(string login, string password, string userLogin, string userPassword,
         string newPassword)
     {
-        if (!ModelState.IsValid) return BadRequest("Is not valid form");
-
         var userSession = UserCheck(login, password);
 
         if (userSession.RevorkedOn != DateTime.MinValue) return BadRequest("This user was deleted");
@@ -105,8 +101,6 @@ public class UsersController : ControllerBase
     public IActionResult UpdateLogin(string login, string password, string userLogin, string userPassword,
         string newLogin)
     {
-        if (!ModelState.IsValid) return BadRequest("Is not valid form");
-
         var userSession = UserCheck(login, password);
 
         if (userSession.RevorkedOn != DateTime.MinValue) return BadRequest("This user was deleted");
@@ -142,8 +136,6 @@ public class UsersController : ControllerBase
     [HttpGet("GetLogin")] // 6)
     public IActionResult GetUser(string login, string password, string userLogin)
     {
-        if (!ModelState.IsValid) return BadRequest("Is not valid form");
-
         var userSession = UserCheck(login, password);
 
         if (userSession == null) return BadRequest("Login or password is incorrect");
@@ -164,8 +156,6 @@ public class UsersController : ControllerBase
     [HttpGet("GetUserInfo")] // 7)
     public IActionResult GetUserInfo(string login, string password)
     {
-        if (!ModelState.IsValid) return BadRequest("Is not valid form");
-
         var userSession = UserCheck(login, password);
 
         if (userSession == null) return BadRequest("Login or password is incorrect");
@@ -191,7 +181,6 @@ public class UsersController : ControllerBase
     [HttpDelete("DeleteSoft")] // 9.1)
     public IActionResult DeleteSoft(string login, string password, string userLogin)
     {
-        if (!ModelState.IsValid) return BadRequest("Is not valid form");
         var userSession = UserCheck(login, password);
         if (userSession == null) return BadRequest("Login or password is incorrect");
         if (!userSession.Admin) return BadRequest("Access denied");
@@ -208,8 +197,6 @@ public class UsersController : ControllerBase
     [HttpDelete("DeleteHard")] // 9.2)
     public IActionResult DeleteHard(string login, string password, string userLogin)
     {
-        if (!ModelState.IsValid) return BadRequest("Is not valid form");
-
         var userSession = UserCheck(login, password);
 
         if (userSession == null) return BadRequest("Login or password is incorrect");
@@ -231,8 +218,6 @@ public class UsersController : ControllerBase
     [HttpPut("RestoreUser")] // 10) Параметры пользователя не указаны? => будем по логину
     public IActionResult RestoreUser(string login, string password, string userLogin)
     {
-        if (!ModelState.IsValid) return BadRequest("Is not valid form");
-
         var userSession = UserCheck(login, password);
 
         if (userSession == null) return BadRequest("Login or password is incorrect");
