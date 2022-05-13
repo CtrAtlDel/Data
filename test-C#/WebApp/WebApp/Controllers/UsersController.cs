@@ -14,13 +14,13 @@ public class UsersController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
 
-        var userSession = userCheck(login, password);
+        var userSession = UserCheck(login, password);
 
         if (userSession == null) return BadRequest("Login or password is incorrect");
 
         if (!userSession.Admin) return BadRequest("Access denied");
 
-        if (!userLoginCheck(userCreator.Login))
+        if (!UserLoginCheck(userCreator.Login))
             return BadRequest("User with this nickname is exist");
 
         var user = new User
@@ -46,11 +46,11 @@ public class UsersController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
 
-        var userSession = userCheck(login, password);
+        var userSession = UserCheck(login, password);
 
         if (userSession.RevorkedOn != DateTime.MinValue) return BadRequest("This user was deleted");
 
-        var userData = userCheck(userLogin, userPassword);
+        var userData = UserCheck(userLogin, userPassword);
 
         if (userSession == null || userData == null) return BadRequest("Login or password is incorrect");
         if (!userSession.Admin)
@@ -77,11 +77,11 @@ public class UsersController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
 
-        var userSession = userCheck(login, password);
+        var userSession = UserCheck(login, password);
 
         if (userSession.RevorkedOn != DateTime.MinValue) return BadRequest("This user was deleted");
 
-        var userData = userCheck(userLogin, userPassword);
+        var userData = UserCheck(userLogin, userPassword);
 
         if (userSession == null || userData == null) return BadRequest("Login or password is incorrect");
         if (!userSession.Admin)
@@ -107,11 +107,11 @@ public class UsersController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
 
-        var userSession = userCheck(login, password);
+        var userSession = UserCheck(login, password);
 
         if (userSession.RevorkedOn != DateTime.MinValue) return BadRequest("This user was deleted");
 
-        var userData = userCheck(userLogin, userPassword);
+        var userData = UserCheck(userLogin, userPassword);
 
         if (userSession == null || userData == null) return BadRequest("Login or password is incorrect");
         if (!userSession.Admin)
@@ -134,7 +134,7 @@ public class UsersController : ControllerBase
     [HttpGet] // 5) //todo add sorting
     public IActionResult Get(string login, string password)
     {
-        if (!ifAdmin(login, password)) return BadRequest("Access denied");
+        if (!IfAdmin(login, password)) return BadRequest("Access denied");
 
         return Ok(UsersReposiroty.db.OrderBy(o => o.CreatedOn.Date).ToArray());
     }
@@ -144,7 +144,7 @@ public class UsersController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
 
-        var userSession = userCheck(login, password);
+        var userSession = UserCheck(login, password);
 
         if (userSession == null) return BadRequest("Login or password is incorrect");
 
@@ -166,7 +166,7 @@ public class UsersController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
 
-        var userSession = userCheck(login, password);
+        var userSession = UserCheck(login, password);
 
         if (userSession == null) return BadRequest("Login or password is incorrect");
 
@@ -192,11 +192,11 @@ public class UsersController : ControllerBase
     public IActionResult DeleteSoft(string login, string password, string userLogin)
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
-        var userSession = userCheck(login, password);
+        var userSession = UserCheck(login, password);
         if (userSession == null) return BadRequest("Login or password is incorrect");
         if (!userSession.Admin) return BadRequest("Access denied");
 
-        var user = getUser(userLogin);
+        var user = GetUser(userLogin);
         if (user == null) return BadRequest("Cannot find this user login");
 
         user.RevorkedOn = DateTime.Now;
@@ -210,13 +210,13 @@ public class UsersController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
 
-        var userSession = userCheck(login, password);
+        var userSession = UserCheck(login, password);
 
         if (userSession == null) return BadRequest("Login or password is incorrect");
 
         if (!userSession.Admin) return BadRequest("Access denied");
 
-        var user = getUser(userLogin);
+        var user = GetUser(userLogin);
 
         if (user == null) return BadRequest("Cannot find this user login");
 
@@ -233,7 +233,7 @@ public class UsersController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
 
-        var userSession = userCheck(login, password);
+        var userSession = UserCheck(login, password);
 
         if (userSession == null) return BadRequest("Login or password is incorrect");
 
@@ -248,22 +248,22 @@ public class UsersController : ControllerBase
         return Ok();
     }
 
-    private User userCheck(string login, string password)
+    private static User UserCheck(string login, string password)
     {
         return UsersReposiroty.db.FirstOrDefault(it => it.Login == login && it.Password == password);
     }
 
-    private bool userLoginCheck(string login)
+    private static bool UserLoginCheck(string login)
     {
         return UsersReposiroty.db.All(it => it.Login != login);
     }
 
-    private User getUser(string login)
+    private static User GetUser(string login)
     {
         return UsersReposiroty.db.FirstOrDefault(it => it.Login == login);
     }
 
-    private static bool ifAdmin(string login, string password)
+    private static bool IfAdmin(string login, string password)
     {
         var user = UsersReposiroty.db.SingleOrDefault(u => u.Login == login && u.Password == password);
         return user.Admin;
