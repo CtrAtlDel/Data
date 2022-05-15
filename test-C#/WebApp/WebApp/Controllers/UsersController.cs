@@ -10,7 +10,7 @@ public class UsersController : ControllerBase
 {
     //Create
     [HttpPost] // 1)
-    public IActionResult CreateUser(string login, string password, UserCreate userCreator) // Admin
+    public IActionResult CreateUser(string login, string password, UserCreate userCreator)
     {
         if (!ModelState.IsValid) return BadRequest("Is not valid form");
 
@@ -32,7 +32,9 @@ public class UsersController : ControllerBase
             Birthday = userCreator.Birthday,
             Admin = userCreator.Admin,
             CreatedBy = login,
-            CreatedOn = DateTime.Now
+            CreatedOn = DateTime.Now,
+            RevorkedOn = DateTime.MinValue,
+            RevorkedBy = ""
         };
         UsersReposiroty.db.Add(user);
 
