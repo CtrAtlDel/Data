@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Model;
 
@@ -8,6 +9,7 @@ namespace WebApp.Controllers;
 [Route("/api/[controller]")]
 public class UsersController : ControllerBase
 {
+    
     //Create
     [HttpPost] // 1)
     public IActionResult CreateUser(string login, string password, UserCreate userCreator)
@@ -236,6 +238,13 @@ public class UsersController : ControllerBase
 
         return Ok();
     }
+
+    private static bool IfRegexCheck(string inputStr)
+    {
+        const string regexForLogin = "[A-Za-z0-9]";
+        var match = Regex.Match(inputStr, regexForLogin, RegexOptions.IgnoreCase);
+        return match.Success;
+    }  
 
     private static User UserCheck(string login, string password)
     {

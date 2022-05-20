@@ -58,7 +58,14 @@ INSERT INTO tblClientPayments(ClientId, PaymentDate, PaymentSum) VALUES (3, NOW(
 ```
 
 #### Задача 3
+Используем POstgreSQL
+```sql
 
+SELECT dbo.tblClosePrice.PriceDate as dbo.tblClosePrice.DateT, dbo.tblClosePrice.PriceAssetId as AssetId, 
+        dbo.tblClosePrice.ClosePrice as PriceT, T.ClosePrice as PriceT1 FROM dbo.tblClosePrice
+        JOIN dbo.tblClosePrice T ON dbo.tblClosePrice.PriceAssetId = T.PriceAssetId WHERE T.ClosePrice IS NOT NULL AND T.PriceDate < dbo.tblClosePrice.PriceDate AND (dbo.tblClosePrice.ClosePrice =  T.ClosePrice * 0.30)
+
+```
 
 #### Задача 4
 
