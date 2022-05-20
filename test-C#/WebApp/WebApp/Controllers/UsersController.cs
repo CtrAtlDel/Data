@@ -9,7 +9,6 @@ namespace WebApp.Controllers;
 [Route("/api/[controller]")]
 public class UsersController : ControllerBase
 {
-    
     //Create
     [HttpPost] // 1)
     public IActionResult CreateUser(string login, string password, UserCreate userCreator)
@@ -22,8 +21,15 @@ public class UsersController : ControllerBase
 
         if (!userSession.Admin) return BadRequest("Access denied");
 
+        if (!(IfRegexCheck(userCreator.Login) && IfRegexCheck(userCreator.Password))) //check if statement
+            return BadRequest("Incorrect login or password");
+
+        if (!IfRegexCheck(userCreator.Name))
+            return BadRequest("Incorrect user name");
+
         if (!UserLoginCheck(userCreator.Login))
             return BadRequest("User with this nickname is exist");
+
 
         var user = new User
         {
@@ -54,13 +60,14 @@ public class UsersController : ControllerBase
 
         var userData = UserCheck(userLogin, userPassword);
 
+        if (!IfRegexCheck(userUpdate.Name))
+            return BadRequest("Incorrect user name");
+
         if (userSession == null || userData == null) return BadRequest("Login or password is incorrect");
         if (!userSession.Admin)
         {
             if (login != userLogin && password != userPassword)
-            {
                 return BadRequest("Access denied, you cannot change another user's data");
-            }
         }
 
         foreach (var it in UsersReposiroty.db.Where(it => it.Login == userLogin))
@@ -84,6 +91,10 @@ public class UsersController : ControllerBase
         var userData = UserCheck(userLogin, userPassword);
 
         if (userSession == null || userData == null) return BadRequest("Login or password is incorrect");
+
+        if (!IfRegexCheck(userPassword))
+            return BadRequest("Incorrect new password");
+        
         if (!userSession.Admin)
         {
             if (login != userLogin && password != userPassword)
@@ -112,6 +123,10 @@ public class UsersController : ControllerBase
         var userData = UserCheck(userLogin, userPassword);
 
         if (userSession == null || userData == null) return BadRequest("Login or password is incorrect");
+
+        if (!IfRegexCheck(newLogin))
+            return BadRequest("New login is incorrect");
+
         if (!userSession.Admin)
         {
             if (login != userLogin && password != userPassword)
@@ -244,7 +259,7 @@ public class UsersController : ControllerBase
         const string regexForLogin = "[A-Za-z0-9]";
         var match = Regex.Match(inputStr, regexForLogin, RegexOptions.IgnoreCase);
         return match.Success;
-    }  
+    }
 
     private static User UserCheck(string login, string password)
     {
