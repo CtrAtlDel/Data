@@ -91,7 +91,7 @@ public final class Song {
 }
 ```
  В роле Prodecer - Sender, вот его описани:
- 
+
 ```Java
 package Sender;
 
@@ -241,10 +241,10 @@ public class Solver {
 
 ```
 
+Ссылка на гит с решениями(1:
 
 
-
-Ссылка на гит с решением:
+Ссылка на гит с решением(2):
   https://github.com/CtrAtlDel/Data
 
 Если на гите нет доступа или иные проблемы, напишите мне:
